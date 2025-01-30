@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class NumberGameUI {
+
+    private static int[] numbers;
 
     public static void main(String[] args) {
 
@@ -18,7 +21,7 @@ public class NumberGameUI {
 
 //        генерация случайных чисел
         Random random = new Random();
-        int[] numbers = NumberGame.getRandomNumbers(random);
+        numbers = NumberGame.getRandomNumbers(random);
 
 //        панель отображения случайных чисел
         JPanel numbersPanel = new JPanel();
@@ -40,6 +43,10 @@ public class NumberGameUI {
 //        кнопка отправки ответа
         JButton submitButton = new JButton("Отправить");
         inputPanel.add(submitButton);
+
+//        кнопка обновления цифр
+        JButton refreshButton = new JButton("Обновить");
+        inputPanel.add(refreshButton);
 
 //        панель отображения результата
         JPanel resultPanel = new JPanel();
@@ -70,10 +77,37 @@ public class NumberGameUI {
             }
         });
 
+//        обработчик нажатия кнопки "Обновить"
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                numbers = NumberGame.getRandomNumbers(random);
+                numbersPanel.removeAll();
+                numbersPanel.add(numbersLabel);
+                displayNumbers(numbersPanel);
+                numbersPanel.revalidate();
+                numbersPanel.repaint();
+                resultLabel.setText("Результат: ");
+            }
+        });
+
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "exit");
+        frame.getRootPane().getActionMap().put("exit", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         frame.add(numbersPanel, BorderLayout.NORTH);
         frame.add(inputPanel, BorderLayout.CENTER);
         frame.add(resultPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
+    }
+
+    private static void displayNumbers(JPanel panel) {
+        for (int number : numbers) {
+            panel.add(new JLabel(String.valueOf(number)));
+        }
     }
 }
