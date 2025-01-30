@@ -21,6 +21,9 @@ public class NumberGame {
             numbers[i] = random.nextInt(10);
         }
 
+//      передаем время начала решения задачи
+        long startTime = System.currentTimeMillis();
+
         System.out.println("Ваши числа: ");
         for (int number : numbers) {
             System.out.println(number + " ");
@@ -43,9 +46,12 @@ public class NumberGame {
             return;
         }
 
+        long endTime = System.currentTimeMillis();
+        int timeSpentOnSolution = (int) ((endTime - startTime) / 1000);
+
         // Вывод результата
         System.out.println("Ваш результат: " + result);
-        System.out.println("Ближайшее число к " + TARGET + " : " + getClosestNumber(result, TARGET));
+        System.out.println("Вы потратили на решение " + timeSpentOnSolution + " секунд");
     }
 
     //    проверка того, чтобы использовались все цифры из массива
