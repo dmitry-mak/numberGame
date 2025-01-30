@@ -16,23 +16,26 @@ public class NumberGame {
         Random random = new Random();
 
 //        генерация случайных чисел
-        int[] numbers = new int[4];
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = random.nextInt(10);
-        }
+        int[] numbers = getRandomNumbers(random);
+        printNumbers(numbers);
+//        int[] numbers = new int[4];
+//        for (int i = 0; i < numbers.length; i++) {
+//            numbers[i] = random.nextInt(10);
+//        }
 
 //      передаем время начала решения задачи
         long startTime = System.currentTimeMillis();
 
-        System.out.println("Ваши числа: ");
-        for (int number : numbers) {
-            System.out.println(number + " ");
-        }
-        System.out.println();
+//        System.out.println("Ваши числа: ");
+//        for (int number : numbers) {
+//            System.out.println(number + " ");
+//        }
+//        System.out.println();
 
 //        ввод выражения от пользователя
         System.out.println("Введите ваш вариант ответа: ");
         String expression = scanner.nextLine();
+
 //        проверка корректности выражения
         if (isValidExpression(expression, numbers)) {
             System.out.println("Некорректное выражение");
@@ -118,5 +121,21 @@ public class NumberGame {
 
     private static int getClosestNumber(int result, int target) {
         return Math.abs(result - target) < Math.abs(-result - target) ? result : -result;
+    }
+
+    public static int[] getRandomNumbers(Random random) {
+        int[] numbers = new int[4];
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] = random.nextInt(10);
+        }
+        return numbers;
+    }
+
+    private static void printNumbers(int[] numbers) {
+        System.out.println("Ваши числа: ");
+        for (int number : numbers) {
+            System.out.println(number + " ");
+        }
+        System.out.println();
     }
 }
