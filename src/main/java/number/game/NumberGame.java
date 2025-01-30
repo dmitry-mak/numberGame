@@ -26,12 +26,6 @@ public class NumberGame {
 //      передаем время начала решения задачи
         long startTime = System.currentTimeMillis();
 
-//        System.out.println("Ваши числа: ");
-//        for (int number : numbers) {
-//            System.out.println(number + " ");
-//        }
-//        System.out.println();
-
 //        ввод выражения от пользователя
         System.out.println("Введите ваш вариант ответа: ");
         String expression = scanner.nextLine();
@@ -58,7 +52,7 @@ public class NumberGame {
     }
 
     //    проверка того, чтобы использовались все цифры из массива
-    private static boolean isValidExpression(String expression, int[] numbers) {
+    public static boolean isValidExpression(String expression, int[] numbers) {
 //        String[] parts = expression.split("\\+");
 //        if (parts.length != 2) {
 //            return true;
@@ -104,7 +98,7 @@ public class NumberGame {
 //        }
 //    }
 
-    private static Integer calculateResult(String expression) {
+    public static Integer calculateResult(String expression) {
         try {
             Expression e = new ExpressionBuilder(expression).build();
             double result = e.evaluate();
