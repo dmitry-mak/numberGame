@@ -55,9 +55,9 @@ public class NumberGame {
 //        return true;
 //    }
 
-//    public static boolean isValidExpression(String expression, int[] numbers) {
-//        return isValidNumber(expression, numbers) && isValidOperator(expression, numbers);
-//    }
+    public static boolean isValidExpression(String expression, int[] numbers) {
+        return isValidNumber(expression, numbers) && isValidOperator(expression, numbers);
+    }
 
 //    public static boolean isValidExpression(String expression, int[] numbers) {
 //        Set<Integer> usedNumbers = new HashSet<>();
@@ -76,121 +76,48 @@ public class NumberGame {
 //        return true;
 //    }
 
-    public static boolean isValidExpression(String expression, int[] numbers) {
-        List<String> numbersList = new ArrayList<>();
-        for (int number : numbers) {
-            numbersList.add(String.valueOf(number));
-        }
-
-        String sanitizedExpression = expression.replaceAll("[^\\d]", "");
-        for (String number : numbersList) {
-            if (sanitizedExpression.contains(number)) {
-                sanitizedExpression = sanitizedExpression.replaceFirst(number, "");
-            } else {
-                return false;
-            }
-        }
-
-        return sanitizedExpression.isEmpty();
-    }
-
-    //    Проверка, что в выражении используются только цифры, сгенерированные программой
-//    public static boolean isValidNumber(String expression, int[] numbers) {
-////        Set<Integer> usedNumbers = new HashSet<>();
-//        Map<Integer, Integer> usedNumbers = new HashMap<>();
-//        for (char c : expression.toCharArray()) {
-//            if (Character.isDigit(c)) {
-//                int digit = Character.getNumericValue(c);
-//                usedNumbers.put(digit, usedNumbers.getOrDefault(digit, 0) + 1);
-//            }
-//        }
-////        Проверка, что цифры, сгенерированные программой, используются хотя бы раз
+//    public static boolean isValidExpression(String expression, int[] numbers) {
+//        List<String> numbersList = new ArrayList<>();
 //        for (int number : numbers) {
-//            if (!usedNumbers.containsKey(number)) {
-//                return false;
-//            }
-////            Проверка, что каждое из чисел не используется больше одного раза
-//            if (usedNumbers.get(number) > 1) {
-//                return false;
-//            }
-//        }
-////        Проверка, что нет лишних цифр
-//        for (Map.Entry<Integer, Integer> entry : usedNumbers.entrySet()) {
-//            if (containsNumber(numbers, entry.getKey())) {
-//                return false;
-//            }
-//            if (entry.getValue() > 1) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//    public static boolean isValidNumber(String expression, int[] numbers) {
-//        String sanitizedExpression = expression.replaceAll("[^\\d]", "");
-//        Map<Integer, Integer> frequencyMap = new HashMap<>();
-//        for (char digit : sanitizedExpression.toCharArray()) {
-//            int parsedDigit = Character.getNumericValue(digit);
-//            frequencyMap.put(parsedDigit, frequencyMap.getOrDefault(parsedDigit, 0) + 1);
+//            numbersList.add(String.valueOf(number));
 //        }
 //
-//        for (int number : numbers) {
-//            if (frequencyMap.getOrDefault(number, 0) != 1) {
+//        String sanitizedExpression = expression.replaceAll("[^\\d]", "");
+//        for (String number : numbersList) {
+//            if (sanitizedExpression.contains(number)) {
+//                sanitizedExpression = sanitizedExpression.replaceFirst(number, "");
+//            } else {
 //                return false;
 //            }
 //        }
-//        for (int digit : frequencyMap.keySet()) {
-//            if (!containsNumber(numbers, digit)) {
-//                return false;
-//            }
-//        }
-//        return true;
+//
+//        return sanitizedExpression.isEmpty();
 //    }
+
+    //    Проверка, что в выражении используются только цифры, сгенерированные программой
     public static boolean isValidNumber(String expression, int[] numbers) {
-        // Сохраняем частоту использования сгенерированных чисел
-        Map<Integer, Integer> numberCounts = new HashMap<>();
-        for (int number : numbers) {
-            numberCounts.put(number, numberCounts.getOrDefault(number, 0) + 1);
+        String sanitizedExpression = expression.replaceAll("[^\\d]", "");
+        int[] sanitizedNumberArray = new int[sanitizedExpression.length()];
+        for (int i = 0; i < sanitizedExpression.length(); i++) {
+            sanitizedNumberArray[i] = Character.getNumericValue(sanitizedExpression.charAt(i));
         }
-        // Подсчет цифр в выражении
-        Map<Integer, Integer> usedNumbers = new HashMap<>();
-        for (char ch : expression.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                int digit = Character.getNumericValue(ch);
-                usedNumbers.put(digit, usedNumbers.getOrDefault(digit, 0) + 1);
-            }
-        }
-        // Проверка использования всех чисел ровно один раз
-        for (Map.Entry<Integer, Integer> entry : numberCounts.entrySet()) {
-            if (!usedNumbers.containsKey(entry.getKey()) || !usedNumbers.get(entry.getKey()).equals(entry.getValue())) {
-                return false;
-            }
-        }
-        // Проверка отсутствия лишних цифр
-        for (int digit : usedNumbers.keySet()) {
-            if (!numberCounts.containsKey(digit)) {
+        int[] sortedNumbers = Arrays.copyOf(numbers, numbers.length);
+        int[] sortedSanitizedNumberArray = Arrays.copyOf(sanitizedNumberArray, sanitizedNumberArray.length);
+
+        Arrays.sort(sortedNumbers);
+        Arrays.sort(sortedSanitizedNumberArray);
+        return Arrays.equals(sortedNumbers, sortedSanitizedNumberArray);
+    }
+
+
+    public static boolean isValidOperator(String expression, int[] numbers) {
+        for (char c : expression.toCharArray()) {
+            if (!Character.isDigit(c) && "+-*/() ".indexOf(c) == -1) {
                 return false;
             }
         }
         return true;
     }
-
-
-//    public static boolean isValidOperator(String expression, int[] numbers) {
-//        for (char c : expression.toCharArray()) {
-//            if (!Character.isDigit(c) && "+-*/() ".indexOf(c) == -1) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-public static boolean isValidOperator(String expression, int[] numbers) {
-    for (char c : expression.toCharArray()) {
-        if (!Character.isDigit(c) && "+-*/() ".indexOf(c) == -1) {
-            return false;
-        }
-    }
-    return true;
-}
 
     public static Integer calculateResult(String expression) {
         try {
