@@ -40,7 +40,7 @@ class NumberGameTest {
         int [] numbers = new int[] {1,2,3,4,};
 
         String expression = "1+2+3+4+4";
-//        Assertions.assertFalse(NumberGame.isValidNumber(expression,numbers));
+        Assertions.assertFalse(NumberGame.isValidNumber(expression,numbers));
     }
 
     @Test
