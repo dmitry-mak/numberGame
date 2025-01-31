@@ -55,12 +55,13 @@ public class NumberGameUI {
         resultPanel.add(resultLabel);
 
         long startTime = System.currentTimeMillis();
+
 //        обработчик нажатия кнопки
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String expression = inputField.getText();
-                if (NumberGame.isValidExpression(expression, numbers)) {
+                if (!NumberGame.isValidExpression(expression, numbers)) {
                     JOptionPane.showMessageDialog(frame, "Некорректное выражение", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

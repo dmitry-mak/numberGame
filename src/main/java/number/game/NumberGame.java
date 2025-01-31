@@ -3,8 +3,10 @@ package number.game;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 public class NumberGame {
 
@@ -41,15 +43,58 @@ public class NumberGame {
     }
 
     //    проверка того, чтобы использовались все цифры из массива
+//    public static boolean isValidExpression(String expression, int[] numbers) {
+//        String sanitizedExpression = expression.replaceAll("[^0-9+]", "");
+//        for (int number : numbers) {
+//            if (sanitizedExpression.contains(Integer.toString(number))) {
+//                return false;
+//            }
+//        }
+//        for (char c : expression.toCharArray()) {
+//            if (!Character.isDigit(c) && "+-*/()".indexOf(c) == -1) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
     public static boolean isValidExpression(String expression, int[] numbers) {
-        String sanitizedExpression = expression.replaceAll("[^0-9+]", "");
+        return isValidNumber(expression, numbers) && isValidOperator(expression, numbers);
+    }
+//    public static boolean isValidExpression(String expression, int[] numbers) {
+//        Set<Integer> usedNumbers = new HashSet<>();
+//        for (char c : expression.toCharArray()) {
+//            if (Character.isDigit(c)) {
+//                usedNumbers.add(Character.getNumericValue(c));
+//            } else if ("+-*/() ".indexOf(c) == -1) {
+//                return false;
+//            }
+//        }
+//        for (int number : numbers) {
+//            if (!usedNumbers.contains(number)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+
+    public static boolean isValidNumber(String expression, int[] numbers) {
+        Set<Integer> usedNumbers = new HashSet<>();
+        for (char c : expression.toCharArray()) {
+            if (Character.isDigit(c)) {
+                usedNumbers.add(Character.getNumericValue(c));
+            }
+        }
         for (int number : numbers) {
-            if (sanitizedExpression.contains(Integer.toString(number))) {
+            if (!usedNumbers.contains(number)) {
                 return false;
             }
         }
+        return true;
+    }
+
+    public static boolean isValidOperator(String expression, int[] numbers) {
         for (char c : expression.toCharArray()) {
-            if (!Character.isDigit(c) && "+-*/()".indexOf(c) == -1) {
+            if (!Character.isDigit(c) && "+-*/() ".indexOf(c) == -1) {
                 return false;
             }
         }
