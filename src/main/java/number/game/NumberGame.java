@@ -95,8 +95,21 @@ public class NumberGame {
 //    }
 
     //    Проверка, что в выражении используются только цифры, сгенерированные программой
-    public static boolean isValidNumber(String expression, int[] numbers) {
+   /* public static boolean isValidNumber(String expression, int[] numbers) {
         String sanitizedExpression = expression.replaceAll("[^\\d]", "");
+//        int[] sanitizedNumberArray = new int[sanitizedExpression.length()];
+//        for (int i = 0; i < sanitizedExpression.length(); i++) {
+//            sanitizedNumberArray[i] = Character.getNumericValue(sanitizedExpression.charAt(i));
+//        }
+//        int[] sortedNumbers = Arrays.copyOf(numbers, numbers.length);
+//        int[] sortedSanitizedNumberArray = Arrays.copyOf(sanitizedNumberArray, sanitizedNumberArray.length);
+//
+//        Arrays.sort(sortedNumbers);
+//        Arrays.sort(sortedSanitizedNumberArray);
+//        return Arrays.equals(sortedNumbers, sortedSanitizedNumberArray);
+        if (sanitizedExpression.length() != numbers.length) {
+            return false;
+        }
         int[] sanitizedNumberArray = new int[sanitizedExpression.length()];
         for (int i = 0; i < sanitizedExpression.length(); i++) {
             sanitizedNumberArray[i] = Character.getNumericValue(sanitizedExpression.charAt(i));
@@ -108,7 +121,39 @@ public class NumberGame {
         Arrays.sort(sortedSanitizedNumberArray);
         return Arrays.equals(sortedNumbers, sortedSanitizedNumberArray);
     }
+   */
+    public static boolean isValidNumber(String expression, int[] numbers) {
+        Map<Integer, Integer> numberCounts = new HashMap<>();
+        for (int number : numbers) {
+            numberCounts.put(number, numberCounts.getOrDefault(number, 0) + 1);
+        }
 
+        String[] tokens = expression.split("[+-/*()\\s]+");
+
+        for (String token : tokens) {
+            if (!token.isEmpty()) {
+                try {
+                    int number = Integer.parseInt(token);
+                    if (number < 0 || number > 9) {
+                        return false;
+                    }
+                    if (numberCounts.containsKey(number) && numberCounts.get(number) > 0) {
+                        numberCounts.put(number, numberCounts.get(number) - 1);
+                    } else {
+                        return false;
+                    }
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+        }
+        for (int count : numberCounts.values()) {
+            if (count > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static boolean isValidOperator(String expression, int[] numbers) {
         for (char c : expression.toCharArray()) {

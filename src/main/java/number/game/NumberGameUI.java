@@ -19,7 +19,7 @@ public class NumberGameUI {
 //        создание окна
         JFrame frame = new JFrame("Number Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 350);
+        frame.setSize(400, 500);
         frame.setLayout(new BorderLayout());
 
 //        генерация случайных чисел

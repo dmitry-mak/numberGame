@@ -56,10 +56,10 @@ class NumberGameTest {
         Assertions.assertFalse(NumberGame.isValidOperator(expression3, numbers));
     }
 
-//    @Test
-//    void isValidExpression() {
-//        int[] numbers = new int[]{1, 2, 3, 4};
-//        String expression = "1+2-34";
-//        Assertions.assertFalse(NumberGame.isValidExpression(expression, numbers));
-//    }
+    @Test
+    void isValidExpression() {
+        int[] numbers = new int[]{1, 2, 3, 4};
+        String expression = "1+2-34";
+        Assertions.assertFalse(NumberGame.isValidExpression(expression, numbers));
+    }
 }
