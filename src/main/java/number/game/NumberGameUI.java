@@ -10,13 +10,16 @@ import java.util.Random;
 public class NumberGameUI {
 
     private static int[] numbers;
+    private static JLabel resultLabel;
+    private static JLabel timerLabel;
+    private static GameTimer timer;
 
     public static void main(String[] args) {
 
 //        создание окна
         JFrame frame = new JFrame("Number Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(400, 350);
         frame.setLayout(new BorderLayout());
 
 //        генерация случайных чисел
@@ -44,14 +47,34 @@ public class NumberGameUI {
         JButton submitButton = new JButton("Отправить");
         inputPanel.add(submitButton);
 
+        inputField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            submitButton.doClick();
+            }
+        });
+
 //        кнопка обновления цифр
         JButton refreshButton = new JButton("Обновить");
         inputPanel.add(refreshButton);
 
+//        панель отображения таймера
+        JPanel timerPanel = new JPanel();
+        timerPanel.setLayout(new FlowLayout());
+        timerLabel = new JLabel("Countdown: ");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerLabel.setForeground(Color.RED);
+        timerPanel.add(timerLabel);
+
+//        инициализация и запуск таймера
+        timer = new GameTimer(timerLabel, 1, 1500);
+        timer.start();
+
 //        панель отображения результата
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new FlowLayout());
-        JLabel resultLabel = new JLabel("Результат: ");
+//        JLabel resultLabel = new JLabel("Результат: ");
+        resultLabel = new JLabel("Результат: ");
         resultPanel.add(resultLabel);
 
         long startTime = System.currentTimeMillis();
@@ -74,6 +97,7 @@ public class NumberGameUI {
                     JOptionPane.showMessageDialog(frame, "Результат не является целым числом", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                timer.stop();
                 resultLabel.setText("Результат " + result + ", Время: " + timeSpentOnSolution + "секунд");
             }
         });
@@ -82,16 +106,23 @@ public class NumberGameUI {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                timer.stop();
+                timer.reset(1500);
                 numbers = NumberGame.getRandomNumbers(random);
                 numbersPanel.removeAll();
                 numbersPanel.add(numbersLabel);
                 displayNumbers(numbersPanel);
                 numbersPanel.revalidate();
                 numbersPanel.repaint();
+
                 resultLabel.setText("Результат: ");
+                inputField.setText("");
+
+                timer.start();
             }
         });
 
+//        обработчик нажатия клавиши esc для выхода из программы
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "exit");
         frame.getRootPane().getActionMap().put("exit", new AbstractAction() {
             @Override
@@ -99,9 +130,19 @@ public class NumberGameUI {
                 System.exit(0);
             }
         });
+//        центральная панель для компоновки inputPanel и timerPanel
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.add(inputPanel);
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(timerPanel);
+
+
         frame.add(numbersPanel, BorderLayout.NORTH);
-        frame.add(inputPanel, BorderLayout.CENTER);
+        //   frame.add(inputPanel, BorderLayout.CENTER);
+        frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(resultPanel, BorderLayout.SOUTH);
+        //  frame.add(timerPanel, BorderLayout.PAGE_END);
 
         frame.setVisible(true);
     }
