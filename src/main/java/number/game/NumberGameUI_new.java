@@ -28,7 +28,7 @@ public class NumberGameUI_new {
 
         // Панель таймера
         JPanel timerPanel = new JPanel();
-        timerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        timerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 50));
         timerLabel = new JLabel("Countdown: ");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerLabel.setForeground(Color.RED);
@@ -39,8 +39,10 @@ public class NumberGameUI_new {
 
         // панель отображения случайных чисел
         JPanel numbersPanel = new JPanel();
-        numbersPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        numbersPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+//        numbersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JLabel numbersLabel = new JLabel("Ваши числа: ");
+//        numbersLabel.setPreferredSize(new Dimension(100, 20));
         numbersPanel.add(numbersLabel);
 
         for (int number : numbers) {
@@ -51,7 +53,8 @@ public class NumberGameUI_new {
 
         // панель для ввода выражения пользователем
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JLabel inputLabel = new JLabel("Введите ваш вариант решения: ");
         JTextField inputField = new JTextField(20);
         inputPanel.add(inputLabel);
@@ -70,17 +73,20 @@ public class NumberGameUI_new {
 
         // кнопка обновления чисел
         JButton refreshButton = new JButton("Обновить");
+//        refreshButton.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0) );
         inputPanel.add(refreshButton);
 
         // панель итогового количества очков в середине страницы
         JPanel finalResultPanel = new JPanel();
-        finalResultPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        JLabel finalResultLabel = new JLabel("Итоговый результат");
+        finalResultPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        JLabel finalResultLabel = new JLabel("");
+        finalResultLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        finalResultLabel.setForeground(Color.BLUE);
         finalResultPanel.add(finalResultLabel);
 
         // панель отображения результата внизу страницы
         JPanel resultPanel = new JPanel();
-        resultPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        resultPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         resultLabel = new JLabel("Результат");
         resultPanel.add(resultLabel);
 
@@ -88,14 +94,16 @@ public class NumberGameUI_new {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
-
         centerPanel.add(timerPanel);
-        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 0)));
         centerPanel.add(numbersPanel);
-        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));
         centerPanel.add(inputPanel);
-        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         centerPanel.add(finalResultPanel);
+
+//        numbersPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+//        inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
         frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(resultPanel, BorderLayout.SOUTH);
